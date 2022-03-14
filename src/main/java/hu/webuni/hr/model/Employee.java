@@ -14,9 +14,9 @@ public class Employee {
 	private int salary;
 	private LocalDateTime localDateTime;
 	
-//	public Employee() {
-//		super();
-//	}
+	public Employee() {
+		super();
+	}
 
 	public Employee(Long id, String name, String post, int salary, LocalDateTime localDateTime) {
 		super();
@@ -32,7 +32,7 @@ public class Employee {
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime from = this.getLocalDateTime();
 
-		month = (int) ChronoUnit.MONTHS.between(now, from);
+		month = (int) ChronoUnit.MONTHS.between(from, now);
 		return month;
 	}
 
