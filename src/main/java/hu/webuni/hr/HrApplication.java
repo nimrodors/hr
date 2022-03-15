@@ -14,7 +14,7 @@ import hu.webuni.hr.service.SalaryService;
 @SpringBootApplication
 public class HrApplication implements CommandLineRunner {
 	
-	Employee sarolt;
+	
 	
 	@Autowired
 	SalaryService salaryService;
@@ -25,7 +25,7 @@ public class HrApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		sarolt = new Employee(1L, "Sarolt", "child", 100, LocalDateTime.of(2015, Month.JANUARY, 1, 10, 10, 30));
+		Employee sarolt = new Employee(1L, "Sarolt", "child", 100, LocalDateTime.of(2005, Month.JANUARY, 1, 10, 10, 30));
 		
 		System.out.println("Emelés előtt: " + sarolt.getSalary());
 		
