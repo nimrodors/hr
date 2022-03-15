@@ -14,7 +14,6 @@ import hu.webuni.hr.service.SalaryService;
 @SpringBootApplication
 public class HrApplication implements CommandLineRunner {
 	
-	@Autowired
 	Employee sarolt;
 	
 	@Autowired

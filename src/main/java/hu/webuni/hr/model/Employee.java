@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Service;
 
-@Service
 public class Employee {
 	
 	private Long id;
