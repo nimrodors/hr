@@ -14,11 +14,9 @@ public class Employee {
 	private LocalDateTime localDateTime;
 	
 	public Employee() {
-		super();
 	}
 
 	public Employee(Long id, String name, String post, int salary, LocalDateTime localDateTime) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.post = post;
