@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>List of employees</h2>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Post</th>
+			<th>Salary</th>
+			<th>Start Work</th>
+		</tr>
+		<tr th:each="employee :${employees}">
+			<td th:text="${employee.id}"></td>
+			<td th:text="${employee.name}"></td>
+			<td th:text="${employee.post}"></td>
+			<td th:text="${employee.salary}"></td>
+			<!-- <td th:text="${employee.localDateTime}"></td> -->
+			<td th:text="${#temporals.format(employee.localDateTime, 'yyyy-MM-dd')}"></td>
+		</tr>
+	</table><br>
+	
+	<form th:action=@{/employees} method="post" th:object="${newEmployee}">
+		Id: <input th:field="*{id}"/><br>
+		Name: <input th:field="*{name}"/><br>
+		Post: <input th:field="*{post}"/><br>
+		Salary: <input th:field="*{salary}"/><br>
+		Start work: <input th:field="*{localDateTime}"/><br>
+		<input type="submit" value="Add">
+	
+	</form>
+</body>
+</html>
