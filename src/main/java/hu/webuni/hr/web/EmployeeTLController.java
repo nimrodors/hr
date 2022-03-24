@@ -40,4 +40,10 @@ public class EmployeeTLController {
 		employees.add(employee);
 		return "redirect:employees";
 	}
+	
+	//Kilistázza az alkalmazott adatait
+	//@GetMapping("/modifyemployee")
+	
+	
+	//Majd ha módosította akkor frissíti és visszatér az employees oldalra
 }
