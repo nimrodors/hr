@@ -71,5 +71,16 @@ public class EmployeeTLController {
 	}
 
 	// Majd ha módosította akkor frissíti és visszatér az employees oldalra
+	@PostMapping("/modifyemployee")
+	public String updateEmploye(Employee employee) {
+		System.out.println("Módosítok mert jó nekem!");
+		for (int i = 0; i < employees.size(); i++) {
+			if (employees.get(i).getId() == employee.getId()) {
+				employees.set(i, employee);
+				break;
+			}
+		}
+		return "redirect:employees";
+	}
 
 }

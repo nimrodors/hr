@@ -5,7 +5,7 @@
 <title>Alkalmazottak módosítása</title>
 </head>
 <body>
-	<form th:action=@{/modifyEmployees} method="post" th:object="${modifyEmployees}">
+	<form th:action=@{/modifyemployee} method="post" th:object="${modifyEmployees}">
 		Id: <input th:field="*{id}" type="hidden"/><br> 
 		Name: <input th:field="*{name}" /><br> 
 		Post: <input th:field="*{post}" /><br>
