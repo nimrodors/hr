@@ -5,6 +5,13 @@
 <title>Alkalmazottak módosítása</title>
 </head>
 <body>
+	<form th:action=@{/modifyEmployees} method="post" th:object="${modifyEmployees}">
+		Id: <input th:field="*{id}" type="hidden"/><br> 
+		Name: <input th:field="*{name}" /><br> 
+		Post: <input th:field="*{post}" /><br>
+		Salary: <input th:field="*{salary}" /><br> 
+		Start work: <input th:field="*{localDateTime}" /><br> <input type="submit" value="Add">
 
+	</form>
 </body>
 </html>

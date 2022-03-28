@@ -13,25 +13,40 @@
 			<th>Post</th>
 			<th>Salary</th>
 			<th>Start Work</th>
+			<th>Töröl</th>
+
 		</tr>
 		<tr th:each="employee :${employees}">
 			<td th:text="${employee.id}"></td>
-			<td th:text="${employee.name}"></td>
+
+			<td>
+			<a th:href="@{/employees/{id}(id = ${employee.id})}" th:text="${employee.name}" target="_blank">Name</a>
+			
 			<td th:text="${employee.post}"></td>
 			<td th:text="${employee.salary}"></td>
 			<!-- <td th:text="${employee.localDateTime}"></td> -->
-			<td th:text="${#temporals.format(employee.localDateTime, 'yyyy-MM-dd')}"></td>
+			<td
+				th:text="${#temporals.format(employee.localDateTime, 'yyyy-MM-dd')}"></td>
+			<td>
+				<form th:action=@{deleteEmployee} method="post">
+					<!-- <button type="button">Töröl</button>  -->
+					<input type="hidden" name="id" th:value="${employee.id}" /> 
+					<input type="submit" value="Töröl" class="btn btn-torol" />
+				</form> <!-- Ezt akkor haszánlom amikor @GetMapping -el és @Pathvariable -el adom át a kitörlnedő Dolgozót -->
+				<!-- 				<a th:href="@{deleteEmployee/{id}(id=${employee.id})}">Töröl</a> -->
+			</td>
+
 		</tr>
-	</table><br>
-	
+	</table>
+	<br>
+
 	<form th:action=@{/employees} method="post" th:object="${newEmployee}">
-		Id: <input th:field="*{id}"/><br>
-		Name: <input th:field="*{name}"/><br>
-		Post: <input th:field="*{post}"/><br>
-		Salary: <input th:field="*{salary}"/><br>
-		Start work: <input th:field="*{localDateTime}"/><br>
-		<input type="submit" value="Add">
-	
+		Id: <input th:field="*{id}" /><br> Name: <input
+			th:field="*{name}" /><br> Post: <input th:field="*{post}" /><br>
+		Salary: <input th:field="*{salary}" /><br> Start work: <input
+			th:field="*{localDateTime}" /><br> <input type="submit"
+			value="Add">
+
 	</form>
 </body>
 </html>
