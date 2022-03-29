@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +46,7 @@ public class CompanyController {
 
 		companies.put(1L, new CompanyDto(1L, "ForestCo", "Rivendell", forestCoEmployee));
 		companies.put(2L, new CompanyDto(2L, "MineCo", "Coal", mineCo));
-		companies.put(2L, new CompanyDto(2L, "MilkCo", "Cow", milk));
+		companies.put(3L, new CompanyDto(3L, "MilkCo", "Cow", milk));
 	}
 
 	@GetMapping
@@ -87,11 +88,39 @@ public class CompanyController {
 	// Ha a full false akkor ne jelenjen meg az adott Cég dolgozója
 	@GetMapping("/fullemployee")
 	public List<CompanyDto> getFullEmployee(@RequestParam boolean full) {
-		if(full)
-			System.out.println("Full paraméter!");
-		else {
-			System.out.println("Nem Full");
-		}
-		return new ArrayList<>(companies.values());
+		List<CompanyDto> withoutEmployee = companies.values().stream().collect(Collectors.toList());
+		if (full)
+			return withoutEmployee;
+		else
+			withoutEmployee.forEach(c -> c.setEmployeeDto(null));
+
+		return withoutEmployee;
+	}
+
+	// Megadott céghez hozzáadunk egy új alkalmazottat
+	@PostMapping("/newcompanyemployee/{id}")
+	public ResponseEntity<EmployeeDto> addNewEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+		if (!companies.containsKey(id))
+			return ResponseEntity.notFound().build();
+		else
+			companies.get(id).getEmployeeDto().add(employeeDto);
+		return ResponseEntity.ok(employeeDto);
+	}
+
+	@DeleteMapping("/{id}/deleteemployee/{employeeId}")
+	public CompanyDto deleteEmployee(@PathVariable long id, @PathVariable long employeeId) {
+		CompanyDto companyDto = companies.get(id);
+		//miért nem működik a companyDto.getEmployeeDto().remove(employeeId)?
+		//Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó, mert nem azt törli amit kéne.
+		companyDto.getEmployeeDto().removeIf(e -> e.getId() == employeeId);
+		companyDto.getEmployeeDto().remove((int)employeeId);
+		//return companyDto;
+	}
+
+	@PutMapping("/{id}/increasedsalary/{employeeId}")
+	public EmployeeDto increasedSalary(@RequestParam("value = employee") EmployeeDto employeeDto) {
+
+		return employeeDto;
+
 	}
 }
