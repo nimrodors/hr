@@ -110,17 +110,23 @@ public class CompanyController {
 	@DeleteMapping("/{id}/deleteemployee/{employeeId}")
 	public CompanyDto deleteEmployee(@PathVariable long id, @PathVariable long employeeId) {
 		CompanyDto companyDto = companies.get(id);
-		//miért nem működik a companyDto.getEmployeeDto().remove(employeeId)?
-		//Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó, mert nem azt törli amit kéne.
+		// miért nem működik a companyDto.getEmployeeDto().remove(employeeId)?
+		// Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó,
+		// mert nem azt törli amit kéne.
 		companyDto.getEmployeeDto().removeIf(e -> e.getId() == employeeId);
-		companyDto.getEmployeeDto().remove((int)employeeId);
-		//return companyDto;
+		companyDto.getEmployeeDto().remove((int) employeeId);
+		return companyDto;
 	}
+	
+	//Kicsréli két cég alkalmazottait
+	@PutMapping("/{idOne}/changeemployee/{idTwo}")
+	public List<CompanyDto> changeEmployee(@PathVariable long idOne, @PathVariable long idTwo) {
+		List<EmployeeDto> employeeOne = companies.get(idOne).getEmployeeDto();
+		List<EmployeeDto> employeeTwo = companies.get(idTwo).getEmployeeDto();
+		System.out.println(companies.get(idTwo).getName());
+		companies.get(idTwo).setEmployeeDto(employeeOne);
+		companies.get(idOne).setEmployeeDto(employeeTwo);
 
-	@PutMapping("/{id}/increasedsalary/{employeeId}")
-	public EmployeeDto increasedSalary(@RequestParam("value = employee") EmployeeDto employeeDto) {
-
-		return employeeDto;
-
+		return companies.values().stream().collect(Collectors.toList());
 	}
 }

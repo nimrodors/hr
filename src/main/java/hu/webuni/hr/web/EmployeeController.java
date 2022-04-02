@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.webuni.hr.dto.EmployeeDto;
+import hu.webuni.hr.model.Employee;
+import hu.webuni.hr.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
+	
+	@Autowired
+	EmployeeService employeeService;
 	
 	private Map<Long, EmployeeDto> employees = new HashMap<>();
 	
@@ -83,6 +89,14 @@ public class EmployeeController {
 		
 		//salaryEmployee.forEach(n -> System.out.println(n.getName() + ", " + n.getSalary()));
 		//return salaryEmployee;
+	}
+	
+	@PutMapping("/{id}/increasedsalary/{employeeId}")
+	public int increasedSalary(@RequestParam("value = employee") Employee employee) {
+		int salary = 0;
+		salary = employeeService.getPayRaisePercent(employee);
+		return salary;
+
 	}
 	
 }
