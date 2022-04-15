@@ -114,7 +114,7 @@ public class CompanyController {
 		// Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó,
 		// mert nem azt törli amit kéne.
 		companyDto.getEmployeeDto().removeIf(e -> e.getId() == employeeId);
-		companyDto.getEmployeeDto().remove((int) employeeId);
+		//companyDto.getEmployeeDto().remove((int) employeeId);
 		return companyDto;
 	}
 	
