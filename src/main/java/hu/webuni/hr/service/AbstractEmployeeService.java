@@ -44,7 +44,6 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 	@Override
 	public void deleteEmployee(long id) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
