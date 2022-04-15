@@ -2,12 +2,20 @@ package hu.webuni.hr.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+
 public class EmployeeDto {
 	
 	private Long id;
+	@NotEmpty(message = "Nincs Név Megadva!")
 	private String name;
+	@NotEmpty(message = "Nincs Beosztás Megadva!")
 	private String post;
+	@Positive(message = "Fizetés Csak Pozitív Szám Lehet")
 	private int salary;
+	@PastOrPresent
 	private LocalDateTime localDateTime;
 	
 	public EmployeeDto() {
