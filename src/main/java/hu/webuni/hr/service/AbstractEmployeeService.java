@@ -2,12 +2,17 @@ package hu.webuni.hr.service;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
 
 import hu.webuni.hr.model.Employee;
 
+@Service
 public abstract class AbstractEmployeeService implements EmployeeService {
 	
 	private Map<Long, Employee> employees = new HashMap<>();
@@ -19,36 +24,39 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 	
 	@Override
 	public List<Employee> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>(employees.values());
 	}
 	
 	@Override
 	public Employee getById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return employees.get(id);
 	}
 	
 	@Override
 	public Employee createEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		employees.put(employee.getId(), employee);
+		return employee;
 	}
 
 	@Override
 	public Employee modifyEmployee(long id, Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		employee.setId(id);
+		employees.put(employee.getId(), employee);
+		return employee;
 	}
 
 	@Override
 	public void deleteEmployee(long id) {
-		// TODO Auto-generated method stub
+		employees.remove(id);
 	}
 
 	@Override
 	public List<Employee> getEmployeesWithBiggerSalary(int salary) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new ArrayList<>(employees.values()
+				.stream()
+				.filter(s -> salary < s.getSalary())
+				.collect(Collectors.toList()));
 	}
 }
