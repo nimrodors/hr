@@ -59,4 +59,13 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 				.filter(s -> salary < s.getSalary())
 				.collect(Collectors.toList()));
 	}
+
+	public Map<Long, Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Map<Long, Employee> employees) {
+		this.employees = employees;
+	}
+	
 }

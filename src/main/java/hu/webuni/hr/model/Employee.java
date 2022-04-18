@@ -3,14 +3,23 @@ package hu.webuni.hr.model;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+
 import org.springframework.stereotype.Service;
 
 public class Employee {
 	
 	private Long id;
+	@NotEmpty(message = "Nincs Név Megadva!")
 	private String name;
+	@NotEmpty(message = "Nincs Beosztás Megadva!")
 	private String post;
+	@Positive(message = "Fizetés Csak Pozitív Szám Lehet")
 	private int salary;
+	@PastOrPresent
 	private LocalDateTime localDateTime;
 	
 	public Employee() {

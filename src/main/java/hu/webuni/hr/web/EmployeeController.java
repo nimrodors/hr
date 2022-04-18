@@ -1,12 +1,7 @@
 package hu.webuni.hr.web;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -23,17 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.webuni.hr.dto.EmployeeDto;
+import hu.webuni.hr.mapper.EmployeeMapper;
 import hu.webuni.hr.model.Employee;
 import hu.webuni.hr.service.EmployeeService;
-import hu.webuni.hr.service.AbstractEmployeeService;
 
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
-	
+
 	@Autowired
 	EmployeeService employeeService;
-	
+
+	@Autowired
+	EmployeeMapper employeeMapper;
+
 //	private Map<Long, EmployeeDto> employees = new HashMap<>();
 //	
 //	{
@@ -42,63 +40,74 @@ public class EmployeeController {
 //		
 //	}
 //	
-//	@GetMapping
-//	public List<EmployeeDto> getAll() {
-//		return new ArrayList<>(employees.values());
-//	}
+	@GetMapping
+	public List<EmployeeDto> getAll() {
+		return employeeMapper.employeeToEmployeeDto(employeeService.getAll());
+	}
+
 //	
-//	@GetMapping("/{id}")
-//	public ResponseEntity<EmployeeDto> getById(@PathVariable long id){
-//		EmployeeDto employeeDto = employees.get(id);
-//		if(employeeDto != null) 
-//			return ResponseEntity.ok(employeeDto);
-//		else
-//			return ResponseEntity.notFound().build();
-//	}
+	@GetMapping("/{id}")
+	public ResponseEntity<EmployeeDto> getById(@PathVariable long id) {
+		Employee employee = employeeService.getById(id);
+		if (employee != null)
+			return ResponseEntity.ok(employeeMapper.employeeToDto(employee));
+		else
+			return ResponseEntity.notFound().build();
+	}
+
 //	
-//	//új létrehozása
-//	@PostMapping
-//	public EmployeeDto createEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
-//		employees.put(employeeDto.getId(), employeeDto);
-//		return employeeDto;
-//	}
+	// új létrehozása
+	@PostMapping
+	public EmployeeDto createEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
+		return employeeMapper
+				.employeeToDto(employeeService.createEmployee(employeeMapper.employeDtoToEmployee(employeeDto)));
+	}
+
 //	
-//	//Módosítás
-//	@PutMapping("/{id}")
-//	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto) {
-//		if(!employees.containsKey(id))
-//			return ResponseEntity.notFound().build();
-//		employeeDto.setId(id);
-//		employees.put(id, employeeDto);
-//		return ResponseEntity.ok(employeeDto);
-//	}
+	// Módosítás
+	@PutMapping("/{id}")
+	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id,
+			@RequestBody @Valid EmployeeDto employeeDto) {
+		employeeDto.setId(id);
+		Employee updateEmployee = employeeService.modifyEmployee(id, employeeMapper.employeDtoToEmployee(employeeDto));
+		if (updateEmployee == null)
+			return ResponseEntity.notFound().build();
+		else {
+			return ResponseEntity.ok(employeeMapper.employeeToDto(updateEmployee));
+		}
+	}
+
 //	
-//	//Meglévő törlése
-//	@DeleteMapping("/{id}")
-//	public void deleteEmployee(@PathVariable long id) {
-//		employees.remove(id);
-//	}
+	// Meglévő törlése
+	@DeleteMapping("/{id}")
+	public void deleteEmployee(@PathVariable long id) {
+		employeeService.deleteEmployee(id);
+	}
+
 //	
-//	//bizonyos fizetéssel rendelkezők kilistázása
-//	@GetMapping("/bigsalary")
-//	public List<EmployeeDto> getEmployeesWithBiggerSalary(@RequestParam int salary){
-//		//List<EmployeeDto> salaryEmployee = new ArrayList<>();
-//		
+	// bizonyos fizetéssel rendelkezők kilistázása
+	@GetMapping("/bigsalary")
+	public List<EmployeeDto> getEmployeesWithBiggerSalary(@RequestParam int salary) {
+		List<EmployeeDto> salaryEmployee = employeeMapper
+				.employeeToEmployeeDto(employeeService.
+						getEmployeesWithBiggerSalary(salary));
+		
 //		return new ArrayList<>(employees.values()
 //				.stream()
 //				.filter(s -> salary < s.getSalary())
 //				.collect(Collectors.toList()));
-//		
-//		//salaryEmployee.forEach(n -> System.out.println(n.getName() + ", " + n.getSalary()));
-//		//return salaryEmployee;
-//	}
-	
+
+		// salaryEmployee.forEach(n -> System.out.println(n.getName() + ", " +
+		// n.getSalary()));
+		return salaryEmployee;
+	}
+
 	@PutMapping("/{id}/increasedsalary/{employeeId}")
-	public int increasedSalary(@RequestParam("value = employee") Employee employee) {
+	public int increasedSalary(@RequestParam("value = employee") EmployeeDto employeeDto) {
 		int salary = 0;
-		salary = employeeService.getPayRaisePercent(employee);
+		salary = employeeService.getPayRaisePercent(employeeMapper.employeDtoToEmployee(employeeDto));
 		return salary;
 
 	}
-	
+
 }
