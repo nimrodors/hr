@@ -19,12 +19,12 @@ import hu.webuni.hr.repository.EmployeeRepository;
 @Service
 public abstract class AbstractEmployeeService implements EmployeeService {
 	
-	private Map<Long, Employee> employees = new HashMap<>();
-	
-	{
-		employees.put(1L, new Employee(1L, "Sarolt", "gangszta", 100, LocalDateTime.of(2021, Month.SEPTEMBER, 1, 12, 24, 00)));
-		employees.put(2L, new Employee(2L, "Csuti", "miracle", 250, LocalDateTime.of(1985, Month.DECEMBER, 13, 23, 8, 00)));
-	}
+//	private Map<Long, Employee> employees = new HashMap<>();
+//	
+//	{
+//		employees.put(1L, new Employee(1L, "Sarolt", "gangszta", 100, LocalDateTime.of(2021, Month.SEPTEMBER, 1, 12, 24, 00)));
+//		employees.put(2L, new Employee(2L, "Csuti", "miracle", 250, LocalDateTime.of(1985, Month.DECEMBER, 13, 23, 8, 00)));
+//	}
 	
 	@Autowired
 	EmployeeRepository employeeRepository;
@@ -91,13 +91,13 @@ public abstract class AbstractEmployeeService implements EmployeeService {
 	public List<Employee> getEmployeesBetweenDate(LocalDateTime from, LocalDateTime to) {
 		return employeeRepository.findByLocalDateTimeBetween(from, to);
 	}
-
-	public Map<Long, Employee> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(Map<Long, Employee> employees) {
-		this.employees = employees;
-	}
+//
+//	public Map<Long, Employee> getEmployees() {
+//		return employees;
+//	}
+//
+//	public void setEmployees(Map<Long, Employee> employees) {
+//		this.employees = employees;
+//	}
 	
 }
