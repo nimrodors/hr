@@ -3,6 +3,9 @@ package hu.webuni.hr.model;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
@@ -10,8 +13,11 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.stereotype.Service;
 
+@Entity
 public class Employee {
 	
+	@Id
+	@GeneratedValue
 	private Long id;
 	@NotEmpty(message = "Nincs Név Megadva!")
 	private String name;

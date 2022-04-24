@@ -1,5 +1,6 @@
 package hu.webuni.hr.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,6 @@ public class SmartEmployeeService extends AbstractEmployeeService {
 			return hrConfigurationProperties.getSalary().getSpecial().getLessThanTwoAnHalfYears();
 		}
 	}
+
+	
 }

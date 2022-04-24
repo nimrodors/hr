@@ -1,11 +1,13 @@
 package hu.webuni.hr.web;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import hu.webuni.hr.dto.EmployeeDto;
 import hu.webuni.hr.mapper.EmployeeMapper;
@@ -66,15 +69,22 @@ public class EmployeeController {
 //	
 	// Módosítás
 	@PutMapping("/{id}")
-	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id,
-			@RequestBody @Valid EmployeeDto employeeDto) {
-		employeeDto.setId(id);
+	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto) {
 		Employee updateEmployee = employeeService.modifyEmployee(id, employeeMapper.employeDtoToEmployee(employeeDto));
-		if (updateEmployee == null)
-			return ResponseEntity.notFound().build();
-		else {
-			return ResponseEntity.ok(employeeMapper.employeeToDto(updateEmployee));
+		updateEmployee.setId(id);
+		
+		try {
+			EmployeeDto savedEmployeDto = employeeMapper.employeeToDto(updateEmployee);
+			return ResponseEntity.ok(savedEmployeDto);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
+		
+//		if (updateEmployee == null)
+//			return ResponseEntity.notFound().build();
+//		else {
+//			return ResponseEntity.ok(savedEmployeDto);
+//		}
 	}
 
 //	
@@ -109,5 +119,25 @@ public class EmployeeController {
 		return salary;
 
 	}
-
+	
+	@GetMapping("/post")
+	public List<EmployeeDto> getEmployeesWithPost(@RequestParam String post){
+		List<EmployeeDto> employeeDtosPost = employeeMapper
+				.employeeToEmployeeDto(employeeService.getEmployeeWithPost(post));
+		return employeeDtosPost;
+	}
+	
+	@GetMapping("/letter")
+	public List<EmployeeDto> getEmployeesCertainLetter(@RequestParam String letter) {
+		List<EmployeeDto> emplyeeDtosCertainLetter = employeeMapper
+				.employeeToEmployeeDto(employeeService.getEmployeeWithCertainLetter(letter));
+		return emplyeeDtosCertainLetter;
+	}
+	
+	@GetMapping("/from/{from}/to/{to}")
+	public List<EmployeeDto> getEmployeesFromToDate(@PathVariable LocalDateTime from, @PathVariable LocalDateTime to) {
+		List<EmployeeDto> employeeDtosFromToDate = employeeMapper
+				.employeeToEmployeeDto(employeeService.getEmployeesBetweenDate(from, to));
+		return employeeDtosFromToDate;
+	}
 }
