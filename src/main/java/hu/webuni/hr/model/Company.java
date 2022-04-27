@@ -1,22 +1,34 @@
 package hu.webuni.hr.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Company {
 	
+	@Id
+	@GeneratedValue
 	private long companyNumber;
 	private String name;
 	private String address;
-	private List<Employee> employee;
+	
+	@OneToMany(mappedBy = "company")
+	private List<Employee> employees = new ArrayList<>();
+	
 	public Company() {
 		super();
 	}
-	public Company(long companyNumber, String name, String address, List<Employee> employee) {
+	public Company(long companyNumber, String name, String address, List<Employee> employees) {
 		super();
 		this.companyNumber = companyNumber;
 		this.name = name;
 		this.address = address;
-		this.employee = employee;
+		this.employees = employees;
 	}
 	public long getCompanyNumber() {
 		return companyNumber;
@@ -37,10 +49,16 @@ public class Company {
 		this.address = address;
 	}
 	public List<Employee> getEmployee() {
-		return employee;
+		return employees;
 	}
-	public void setEmployee(List<Employee> employee) {
-		this.employee = employee;
+	public void setEmployee(List<Employee> employees) {
+		this.employees = employees;
 	}
 	
+	public void addEmployee(Employee employee) {
+		employee.setCompany(this);
+		if(this.employees == null)
+			this.employees = new ArrayList<>();
+		this.employees.add(employee);
+	}
 }

@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
@@ -28,6 +29,9 @@ public class Employee {
 	@PastOrPresent
 	private LocalDateTime localDateTime;
 	
+	@ManyToOne
+	private Company company;
+
 	public Employee() {
 	}
 
@@ -86,5 +90,13 @@ public class Employee {
 
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
+	}
+	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

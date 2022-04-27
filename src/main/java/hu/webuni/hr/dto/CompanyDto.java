@@ -1,5 +1,6 @@
 package hu.webuni.hr.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDto {
@@ -7,16 +8,16 @@ public class CompanyDto {
 	private long companyNumber;
 	private String name;
 	private String address;
-	private List<EmployeeDto> employeeDto;
+	private List<EmployeeDto> employees = new ArrayList<>();
 	
 	public CompanyDto() {
 	}
-	public CompanyDto(long companyNumber, String name, String address, List<EmployeeDto> employeeDto) {
+	public CompanyDto(long companyNumber, String name, String address, List<EmployeeDto> employees) {
 		super();
 		this.companyNumber = companyNumber;
 		this.name = name;
 		this.address = address;
-		this.employeeDto = employeeDto;
+		this.employees = employees;
 	}
 	
 	public long getCompanyNumber() {
@@ -37,12 +38,11 @@ public class CompanyDto {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public List<EmployeeDto> getEmployeeDto() {
-		return employeeDto;
+	public List<EmployeeDto> getEmployees() {
+		return employees;
 	}
-	public void setEmployeeDto(List<EmployeeDto> employeeDto) {
-		this.employeeDto = employeeDto;
+	public void setEmployees(List<EmployeeDto> employees) {
+		this.employees = employees;
 	}
-	
 	
 }
