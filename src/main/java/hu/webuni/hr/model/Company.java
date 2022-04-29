@@ -30,6 +30,12 @@ public class Company {
 		this.address = address;
 		this.employees = employees;
 	}
+	public Company(String name, String address, List<Employee> employees) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.employees = employees;
+	}
 	public long getCompanyNumber() {
 		return companyNumber;
 	}
@@ -48,13 +54,13 @@ public class Company {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public List<Employee> getEmployee() {
+	
+	public List<Employee> getEmployees() {
 		return employees;
 	}
-	public void setEmployee(List<Employee> employees) {
+	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
 	}
-	
 	public void addEmployee(Employee employee) {
 		employee.setCompany(this);
 		if(this.employees == null)

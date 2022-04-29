@@ -11,6 +11,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import hu.webuni.hr.model.Company;
 import hu.webuni.hr.model.Employee;
 import hu.webuni.hr.repository.CompanyRepository;
@@ -26,10 +29,12 @@ public class CompanyService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
+	@Transactional
 	public Company save(Company company) {
 		return companyRepository.save(company);
 	}
 
+	@Transactional
 	public Company update(Company company) {
 		if (!companyRepository.existsById(company.getCompanyNumber()))
 			return null;
@@ -43,7 +48,8 @@ public class CompanyService {
 	public Optional<Company> findById(long id) {
 		return companyRepository.findById(id);
 	}
-
+	
+	@Transactional
 	public void delete(long id) {
 		companyRepository.deleteById(id);
 	}
@@ -55,32 +61,39 @@ public class CompanyService {
 		return company;
 	}
 
+	@Transactional
 	public Company deleteEmployee(long companyId, long employeeId) {
 		// itt megkeresem, hogy van e ilye olyan company, employee
 		Company company = companyRepository.findById(companyId).get();
 		Employee employee = employeeRepository.findById(employeeId).get();
 		employee.setCompany(null);
-		company.getEmployee().remove(employee);
+		company.getEmployees().remove(employee);
 		// a törlések után újra rámentek, hogy már nem legyen benne az employee a
 		// companyben
 		employeeRepository.save(employee);
 		return company;
 	}
 
-	// össze Employeet lecserélem
+	//összes Employeet lecserélem
+	@Transactional
 	public Company replaceEmployees(long id, List<Employee> employees) {
 		Company company = companyRepository.findById(id).get();
-		for (Employee employee : company.getEmployee()) {
+		for (Employee employee : company.getEmployees()) {
 			employee.setCompany(null);
 		}
-		company.getEmployee().clear();
+		company.getEmployees().clear();
 
 		for (Employee employee : employees) {
 			company.addEmployee(employee);
-			employeeRepository.save(employee);
+			Employee savedEmployee = employeeRepository.save(employee);
+			employee.setId(savedEmployee.getId());
 		}
 
 		return company;
+	}
+	
+	public List<Company> getCompanyEmployeeWithCertainSalary(int salary) {
+		return companyRepository.getCompanyWithEmployeeSalary(salary);
 	}
 
 //	private Map<Long, Company> companies = new HashMap<>();

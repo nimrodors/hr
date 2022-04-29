@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import hu.webuni.hr.model.Employee;
+import hu.webuni.hr.service.InitDbService;
 import hu.webuni.hr.service.SalaryService;
 
 @SpringBootApplication
@@ -18,6 +19,9 @@ public class HrApplication implements CommandLineRunner {
 	
 	@Autowired
 	SalaryService salaryService;
+	
+//    @Autowired
+//	InitDbService initDbService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HrApplication.class, args);
@@ -32,6 +36,8 @@ public class HrApplication implements CommandLineRunner {
 		sarolt = salaryService.newSalary(sarolt);
 		
 		System.out.println("Emelés után: " + sarolt.getSalary());
+		
+		//initDbService.inserTestData();
 		
 	}
 

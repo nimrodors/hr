@@ -23,6 +23,7 @@ public interface CompanyMapper {
 	
 	List<Company> companieDtosToCompany(List<CompanyDto> companies);
 
+	@InheritInverseConfiguration
 	CompanyDto companyToDto(Company company);
 
 	@Mapping(target = "employees", ignore = true)

@@ -11,6 +11,8 @@ import hu.webuni.hr.model.Employee;
 public interface EmployeeMapper {
 
 	List<EmployeeDto> employeeToEmployeeDto(List<Employee> employes);
+	
+	List<Employee> dtosToEmployees(List<EmployeeDto> employees);
 
 	EmployeeDto employeeToDto(Employee employee);
 	

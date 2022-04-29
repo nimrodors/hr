@@ -138,16 +138,21 @@ public class CompanyController {
 		}
 	}
 
-//	@DeleteMapping("/{id}/deleteemployee/{employeeId}")
-//	public CompanyDto deleteEmployee(@PathVariable long id, @PathVariable long employeeId) {
+	@DeleteMapping("/{id}/deleteemployee/{employeeId}")
+	public CompanyDto deleteEmployee(@PathVariable long id, @PathVariable long employeeId) {
 //		CompanyDto companyDto = companies.get(id);
-//		// miért nem működik a companyDto.getEmployeeDto().remove(employeeId)?
-//		// Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó,
-//		// mert nem azt törli amit kéne.
+		// miért nem működik a companyDto.getEmployeeDto().remove(employeeId)?
+		// Azért mert a remove intet vár nekem pedig long típusom van. Castolni sem jó,
+		// mert nem azt törli amit kéne.
 //		companyDto.getEmployeeDto().removeIf(e -> e.getId() == employeeId);
-//		// companyDto.getEmployeeDto().remove((int) employeeId);
+		// companyDto.getEmployeeDto().remove((int) employeeId);
 //		return companyDto;
-//	}
+		try {
+			return companyMapper.companyToDto(companyService.deleteEmployee(id, employeeId));
+		} catch (NoSuchElementException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	// Kicsréli két cég alkalmazottait
 //	@PutMapping("/{idOne}/changeemployee/{idTwo}")
@@ -162,11 +167,22 @@ public class CompanyController {
 //	}
 
 	// Lecseréljük egy adott id-val rendelkező cég összes alkalmazottját
-//	@PutMapping("/{id}/employees")
-//	public CompanyDto replaceAllemployees(@PathVariable long id, @RequestBody List<EmployeeDto> employeeDtos) {
+	@PutMapping("/{id}/employees")
+	public CompanyDto replaceAllemployees(@PathVariable long id, @RequestBody List<EmployeeDto> employeeDtos) {
 //		CompanyDto companyDto = companies.get(id);
 //
 //		companyDto.setEmployeeDto(employeeDtos);
 //		return companyDto;
-//	}
+		try {
+			return companyMapper.companyToDto(companyService.replaceEmployees(id, employeeMapper.dtosToEmployees(employeeDtos)));
+		} catch (NoSuchElementException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/certainSalary/{salary}")
+	public List<CompanyDto> getCompanysEmployeeWithCertainSalary(@PathVariable int salary){
+		List<Company> Company = companyService.getCompanyEmployeeWithCertainSalary(salary);
+		return companyMapper.companiesToDto(Company);
+	}
 }
