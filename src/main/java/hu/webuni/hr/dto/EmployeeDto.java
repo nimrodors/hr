@@ -18,6 +18,8 @@ public class EmployeeDto {
 	@PastOrPresent
 	private LocalDateTime localDateTime;
 	
+	private CompanyDto companyDto;
+	
 	public EmployeeDto() {
 	}
 	
@@ -59,6 +61,13 @@ public class EmployeeDto {
 	}
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
+	}
+	public CompanyDto getCompanyDto() {
+		return companyDto;
+	}
+
+	public void setCompanyDto(CompanyDto companyDto) {
+		this.companyDto = companyDto;
 	}
 	
 }
