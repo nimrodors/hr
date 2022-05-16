@@ -56,6 +56,7 @@ public class CompanyService {
 
 	public Company addEmployee(long id, Employee employee) {
 		Company company = companyRepository.findById(id).get();
+		//itt meglehetne vizsgálni, hogy létezik e a Company
 		company.addEmployee(employee);
 		employeeRepository.save(employee);
 		return company;

@@ -18,7 +18,7 @@ public class EmployeeDto {
 	@PastOrPresent
 	private LocalDateTime localDateTime;
 	
-	private CompanyDto companyDto;
+	private CompanyDto company;
 	
 	public EmployeeDto() {
 	}
@@ -41,6 +41,13 @@ public class EmployeeDto {
 	public String getName() {
 		return name;
 	}
+	public CompanyDto getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyDto company) {
+		this.company = company;
+	}
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -62,12 +69,4 @@ public class EmployeeDto {
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-	public CompanyDto getCompanyDto() {
-		return companyDto;
-	}
-
-	public void setCompanyDto(CompanyDto companyDto) {
-		this.companyDto = companyDto;
-	}
-	
 }

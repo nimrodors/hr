@@ -42,7 +42,18 @@ public class Employee {
 		this.salary = salary;
 		this.localDateTime = localDateTime;
 	}
-
+	
+	public Employee(@NotEmpty(message = "Nincs Név Megadva!") String name,
+			@NotEmpty(message = "Nincs Beosztás Megadva!") String post,
+			@Positive(message = "Fizetés Csak Pozitív Szám Lehet") int salary,
+			@PastOrPresent LocalDateTime localDateTime, Company company) {
+		super();
+		this.name = name;
+		this.post = post;
+		this.salary = salary;
+		this.localDateTime = localDateTime;
+		this.company = company;
+	}
 
 	public int getMonth() {
 		int month;

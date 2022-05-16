@@ -2,7 +2,6 @@ package hu.webuni.hr.web;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ import hu.webuni.hr.dto.EmployeeDto;
 import hu.webuni.hr.mapper.CompanyMapper;
 import hu.webuni.hr.mapper.EmployeeMapper;
 import hu.webuni.hr.model.Company;
-import hu.webuni.hr.model.Employee;
+import hu.webuni.hr.repository.CompanyRepository;
 import hu.webuni.hr.service.CompanyService;
 
 @RestController
@@ -38,6 +37,9 @@ public class CompanyController {
 
 	@Autowired
 	EmployeeMapper employeeMapper;
+	
+	@Autowired
+	CompanyRepository companyRepository;
 
 //	private Map<Long, CompanyDto> companies = new HashMap<>();
 //
@@ -63,12 +65,14 @@ public class CompanyController {
 
 	@GetMapping
 	public List<CompanyDto> getAll(@RequestParam(required = false) Boolean full) {
-		List<Company> companies = companyService.findAll();
-
+		List<Company> companies = null;
+		//itt állítjuk be az open-in-view -t 
 		if (isFull(full)) {
-			List<CompanyDto> companiesToDto = companyMapper.companiesToDto(companies);
-			return companiesToDto; 
+			companies = companyRepository.findAllWithEmployees();
+			return companyMapper.companiesToDto(companies);
+			
 		} else {
+			companies = companyService.findAll();
 			return companyMapper.companiesToDtosNoEmployees(companies);
 		}
 	}

@@ -13,6 +13,7 @@ import hu.webuni.hr.dto.EmployeeDto;
 import hu.webuni.hr.model.Company;
 import hu.webuni.hr.model.Employee;
 
+
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
 
